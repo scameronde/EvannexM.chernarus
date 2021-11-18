@@ -228,5 +228,14 @@ class Params {
 
 class CfgFunctions 
 { 
+    class SCAMERONDE
+    {
+        class Debug
+        {
+            class showNumUnits {};
+            class toggleShowNumUnits {};
+        }
+    }
+
     #include "SBGF\cfgfunctions.hpp"
 };
