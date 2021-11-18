@@ -9,5 +9,5 @@
 	["Helicopter", ["O_Heli_Attack_02_F"]],
 	["AA_Zone", ["O_APC_Tracked_02_AA_F"]],
 	["Enemy_Camp", ["O_Soldier_F", "O_Soldier_F", "O_Soldier_AT_F", "O_Soldier_F", "O_Soldier_F"]],
-	["Enemy_Mortors", ["O_Mortar_01_F", "O_Mortar_01_F", "O_Mortar_01_F", "O_Mortar_01_F"]]
+	["Enemy_Mortars", ["O_Mortar_01_F", "O_Mortar_01_F", "O_Mortar_01_F", "O_Mortar_01_F"]]
 ]

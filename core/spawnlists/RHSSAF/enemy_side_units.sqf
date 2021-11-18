@@ -9,5 +9,5 @@
 	["Helicopter", ["rhssaf_airforce_ht48"]],
 	["AA_Zone", ["B_T_APC_Tracked_01_AA_F"]],
 	["Enemy_Camp", ["rhssaf_army_m10_para_rifleman_g36", "rhssaf_army_m10_para_rifleman_g36", "rhssaf_army_m10_para_spec_at", "rhssaf_army_m10_para_spec_aa", "rhssaf_army_m10_para_rifleman_g36"]],
-	["Enemy_Mortors", ["rhssaf_army_m252", "rhssaf_army_m252", "rhssaf_army_m252", "rhssaf_army_m252"]]
+	["Enemy_Mortars", ["rhssaf_army_m252", "rhssaf_army_m252", "rhssaf_army_m252", "rhssaf_army_m252"]]
 ]

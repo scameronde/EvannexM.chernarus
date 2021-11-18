@@ -9,5 +9,5 @@
 	["Helicopter", ["rhsgref_b_mi24g_CAS"]],
 	["AA_Zone", ["rhsgref_cdf_b_zsu234"]],
 	["Enemy_Camp", ["rhsgref_cdf_b_reg_rifleman", "rhsgref_cdf_b_reg_rifleman", "rhsgref_cdf_b_reg_specialist_aa", "rhsgref_cdf_b_reg_grenadier_rpg", "rhsgref_cdf_b_reg_rifleman"]],
-	["Enemy_Mortors", ["rhsgref_cdf_b_reg_M252", "rhsgref_cdf_b_reg_M252", "rhsgref_cdf_b_reg_M252", "rhsgref_cdf_b_reg_M252"]]
+	["Enemy_Mortars", ["rhsgref_cdf_b_reg_M252", "rhsgref_cdf_b_reg_M252", "rhsgref_cdf_b_reg_M252", "rhsgref_cdf_b_reg_M252"]]
 ]

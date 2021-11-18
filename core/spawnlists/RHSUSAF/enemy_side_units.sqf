@@ -9,5 +9,5 @@
 	["Helicopter", ["RHS_AH1Z_wd"]],
 	["AA_Zone", ["B_T_APC_Tracked_01_AA_F"]],
 	["Enemy_Camp", ["rhsusf_army_ucp_rifleman", "rhsusf_army_ucp_rifleman", "rhsusf_army_ucp_aa", "rhsusf_army_ucp_at", "rhsusf_army_ucp_rifleman"]],
-	["Enemy_Mortors", ["B_Mortar_01_F", "B_Mortar_01_F", "B_Mortar_01_F", "B_Mortar_01_F"]]
+	["Enemy_Mortars", ["B_Mortar_01_F", "B_Mortar_01_F", "B_Mortar_01_F", "B_Mortar_01_F"]]
 ]
