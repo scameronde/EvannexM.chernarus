@@ -1,5 +1,5 @@
 [
-	"B_Soldier_F",
+	"B_soldier_LAT_F",
 	"B_soldier_AR_F",
 	"B_soldier_M_F",
 	"B_Soldier_GL_F",

@@ -24,12 +24,6 @@
 	"B_T_UAV_03_F",
 	"B_G_Quadbike_01_F",
 	"B_Heli_Light_01_armed_F",
-	//"I_APC_tracked_03_cannon_F",
-	"I_LT_01_cannon_F",
-	"I_LT_01_AA_F",
-	"I_LT_01_scout_F",
-	"I_LT_01_AT_F",
-	"C_Kart_01_Red_F",
 	"B_AFV_Wheeled_01_cannon_F",
 	"B_T_AFV_Wheeled_01_cannon_F",
 	"B_AFV_Wheeled_01_up_cannon_F",
@@ -37,6 +31,5 @@
 	"B_APC_Tracked_01_AA_F",
 	"B_APC_Tracked_01_rcws_F",
 	"B_Heli_Attack_01_F",
-	"B_UGV_01_F",
-	"rhsgref_cdf_b_t80b_tc"
+	"B_UGV_01_F"
 ];

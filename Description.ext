@@ -47,7 +47,7 @@ class Params {
     class Time {
 		title = "Time";
 		values[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24};
-		default = 12;
+		default = (random 24);
 	};
     class ViewDistance {
 		title = "View distance (in metres)";
@@ -64,7 +64,7 @@ class Params {
 	class NumberFriendlyGroups {
 		title = "Max Friendly Groups"; // Param name visible in the list
 		values[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 17, 20, 25, 30, 40, 50, 100}; // Values; must be integers; has to have the same number of elements as 'texts'
-		default = 8; // Default value; must be listed in 'values' array, otherwise 0 is used
+		default = 7; // Default value; must be listed in 'values' array, otherwise 0 is used
 		// Default values that are not whole numbers do not work. Param will default to 0 (or 1 if defined)
 	};
 	class NumberEnemyGroups {
@@ -76,13 +76,13 @@ class Params {
 	class  NumberEnemySpecialGroups {
 		title = "Max Special Enemy Groups"; // Param name visible in the list
 		values[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 17, 20, 25, 30, 40, 50, 100}; // Values; must be integers; has to have the same number of elements as 'texts'
-		default = 7; // Default value; must be listed in 'values' array, otherwise 0 is used
+		default = 5; // Default value; must be listed in 'values' array, otherwise 0 is used
 		// Default values that are not whole numbers do not work. Param will default to 0 (or 1 if defined)
 	}
 	class  MinEnemyGroupsForCapture {
 		title = "Minimum Enemy Groups For Zone Capture"; // Param name visible in the list
 		values[] = {0, 1, 2, 3, 4, 5, 10, 15, 20, 25, 30, 40, 50, 100}; // Values; must be integers; has to have the same number of elements as 'texts'
-		default = 3; // Default value; must be listed in 'values' array, otherwise 0 is used
+		default = 2; // Default value; must be listed in 'values' array, otherwise 0 is used
 		// Default values that are not whole numbers do not work. Param will default to 0 (or 1 if defined)
 	}
 	class  MinAIDistanceForDeleteion {
@@ -142,7 +142,7 @@ class Params {
         title = "More Steady Aim";
         values[] = {0,1};
         texts[] = {"Disabled","Enabled"};
-        default = 1;
+        default = 0;
     };
 	class SideObjectives {
         title = "Enabled Side Objectives";
@@ -160,13 +160,13 @@ class Params {
         title = "Number of Side Missions";
         values[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
         texts[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
-        default = 1;
+        default = round(random 4);
     };
 	class NGarrisons {
         title = "Number of Garrisons";
         values[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
         texts[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
-        default = 2;
+        default = round(random 4);
     };
 	class PlaceZoneRandomly {
         title = "Place Zone Randomly";
@@ -190,7 +190,7 @@ class Params {
         title = "Virutal Support";
         values[] = {0,1};
         texts[] = {"Disabled","Enabled"};
-        default = 0;
+        default = 1;
     };
     class FriendliesUseTransport {
         title = "Friendlies Use Transport";
@@ -207,7 +207,7 @@ class Params {
     class  MaxUserVehicles {
 		title = "Max User Vehicles"; // Param name visible in the list
 		values[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 17, 20, 25, 30, 40, 50, 100}; // Values; must be integers; has to have the same number of elements as 'texts'
-		default = 10; // Default value; must be listed in 'values' array, otherwise 0 is used
+		default = 6; // Default value; must be listed in 'values' array, otherwise 0 is used
 		// Default values that are not whole numbers do not work. Param will default to 0 (or 1 if defined)
 	};
     class MaxFriendlyGroupSize {
