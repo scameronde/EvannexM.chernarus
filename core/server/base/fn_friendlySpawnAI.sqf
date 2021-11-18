@@ -15,7 +15,7 @@ br_fnc_spawnFriendlyAI = {
 				(call br_fnc_setInitCommandGroup) pushback _group;
 			};
 			{ 
-				_x setSkill br_ai_skill;
+				_x setSkill br_ai_skill_friendly;
 				[_x] call fn_objectInitEvents; 
 			} forEach (units _group);
 			// Now split the groups

@@ -14,7 +14,7 @@ br_fnc_createAttackVehicle = {
 	_attackVehicleGroup = createGroup WEST;
 	(units (group ((crew _attackVehicle) select 0))) joinSilent _attackVehicleGroup;
 	{ 
-		_x setSkill br_ai_skill;
+		_x setSkill br_ai_skill_friendly;
 		[_x] call fn_objectInitEvents; 
 	} forEach (crew _attackVehicle + units _attackVehicleGroup);
 	[_attackVehicle] call fn_objectInitEvents;

@@ -21,7 +21,7 @@ br_fnc_createVehicleUnit = {
 	_vehicle setUnloadInCombat [FALSE, FALSE];
 	_vehicleGroup = [_vehicle, WEST, _fmsDisable] call fn_createHelicopterCrew;
 	[_vehicleGroup, _spawnPad] call fn_setDirectionOfMarker;
-	{ _x setBehaviour "AWARE"; _x setSkill br_ai_skill; } forEach (units _vehicleGroup);
+	{ _x setBehaviour "AWARE"; _x setSkill br_ai_skill_friendly; } forEach (units _vehicleGroup);
 };
 
 // Go and land at zone

@@ -20,14 +20,13 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=64;
+		nextID=68;
 	};
 	class Camera
 	{
 		pos[]={4525.5356,360.88193,10566.792};
-		dir[]={-1.2363449e-007,-0.70710683,0.70710683};
-		up[]={-1.2363449e-007,0.70710671,0.70710683};
-		aside[]={1,0,1.7484557e-007};
+		dir[]={0,-0.70710683,0.70710683};
+		up[]={0,0.70710671,0.70710683};
 	};
 };
 binarizationWanted=0;
@@ -8666,7 +8665,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={4653.25,339.41931,10283.75};
-						angles[]={-0,2.6159611,0};
+						angles[]={0,2.6159611,0};
 					};
 					side="Empty";
 					flags=4;
@@ -8683,7 +8682,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={4651.75,339.41931,10281.25};
-						angles[]={-0,1.0451648,0};
+						angles[]={0,1.0451648,0};
 					};
 					side="Empty";
 					flags=4;
@@ -8700,7 +8699,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={4656.5,339.41931,10283.75};
-						angles[]={-0,1.0451648,0};
+						angles[]={0,1.0451648,0};
 					};
 					side="Empty";
 					flags=4;
@@ -8717,7 +8716,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={4655.2861,339.41931,10256.63};
-						angles[]={-0,5.7575541,0};
+						angles[]={0,5.7575541,0};
 					};
 					side="Empty";
 					flags=4;
@@ -8734,7 +8733,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={4656.7861,339.41931,10259.13};
-						angles[]={-0,4.186758,0};
+						angles[]={0,4.186758,0};
 					};
 					side="Empty";
 					flags=4;
@@ -8751,7 +8750,7 @@ class Mission
 					class PositionInfo
 					{
 						position[]={4652.0361,339.41931,10256.63};
-						angles[]={-0,4.186758,0};
+						angles[]={0,4.186758,0};
 					};
 					side="Empty";
 					flags=4;
@@ -12783,7 +12782,7 @@ class Mission
 			class PositionInfo
 			{
 				position[]={4654.25,339.57538,10282.5};
-				angles[]={-0,5.7595868,0};
+				angles[]={0,5.7595868,0};
 			};
 			side="Empty";
 			flags=4;
@@ -12878,7 +12877,7 @@ class Mission
 						class data
 						{
 							singleType="STRING";
-							value="_this setSkill br_ai_skill; [_this] call fn_objectInitEvents;";
+							value="_this setSkill br_ai_skill_friendly; [_this] call fn_objectInitEvents;";
 						};
 					};
 				};

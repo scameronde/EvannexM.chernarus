@@ -23,7 +23,12 @@ if (_crewCount == (count (units _tempGroup))) then {
 		_y disableAI _x;
 	} forEach _fms;
 	
-	_y setSkill br_ai_skill;
+	if (_side isEqualTo WEST) then {
+		_y setSkill br_ai_skill_friendly;
+	}
+	else {
+		_y setSkill br_ai_skill_enemy;
+	};
 	[_y] call fn_objectInitEvents; 
 } forEach units _vehicleGroup;
 _vehicle engineOn false;

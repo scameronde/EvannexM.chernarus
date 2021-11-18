@@ -54,8 +54,15 @@ class Params {
 		values[] = {200,300,500,1000,1500,1600,2000,2500,3000,3500,4000,4500,5000,12000,40000};
 		default = 1600;
 	};
-    class AISkill {
-		title = "AI Skill"; // Param name visible in the list
+    class AISkillFriendly {
+		title = "AI Skill Friendly"; // Param name visible in the list
+		values[] = {0,1,2,3}; // Values; must be integers; has to have the same number of elements as 'texts'
+		texts[] = {"Recruit","Regular","Veteran","Extraordinary"}; // Description of each selectable item
+		default = 2; // Default value; must be listed in 'values' array, otherwise 0 is used
+		// Default values that are not whole numbers do not work. Param will default to 0 (or 1 if defined)
+	};
+    class AISkillEnemy {
+		title = "AI Skill Enemy"; // Param name visible in the list
 		values[] = {0,1,2,3}; // Values; must be integers; has to have the same number of elements as 'texts'
 		texts[] = {"Recruit","Regular","Veteran","Extraordinary"}; // Description of each selectable item
 		default = 2; // Default value; must be listed in 'values' array, otherwise 0 is used

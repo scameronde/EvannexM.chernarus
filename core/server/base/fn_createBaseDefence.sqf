@@ -11,7 +11,7 @@ br_fnc_createDefence = {
 	_vehicle setDir (markerDir _spawnPad);
 	{ 
 		_x setBehaviour "AWARE"; 
-		_x setSkill br_ai_skill; 
+		_x setSkill br_ai_skill_friendly; 
 		_x disableAI "PATH"; 
 		[_x] call fn_objectInitEvents;
 	} forEach (units _group);

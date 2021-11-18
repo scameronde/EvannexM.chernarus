@@ -25,7 +25,7 @@ MP_request_vehicle = {
 		// If vehicle is another faction it can spawn people on the wrong side, we need them to be on our side.
 		_attackVehicleGroup = createGroup WEST;
 		(units _temp) joinSilent _attackVehicleGroup;
-		{ _x setBehaviour "AWARE"; _x setSkill br_ai_skill; } forEach (units _attackVehicleGroup);
+		{ _x setBehaviour "AWARE"; _x setSkill br_ai_skill_friendly; } forEach (units _attackVehicleGroup);
 		// Apply the zone AI to the vehicle
 		br_friendly_ai_groups pushBack _attackVehicleGroup;
 		br_friendly_vehicles pushBack _attackVehicleGroup;

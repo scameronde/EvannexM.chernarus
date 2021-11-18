@@ -32,7 +32,7 @@ br_fnc_createBombUnits = {
 		_x addBackpack "B_Carryall_ocamo"; 
 		_x addMagazines ["SatchelCharge_Remote_Mag", 1];
 		_x setBehaviour "SAFE";
-		_x setSkill br_ai_skill;
+		_x setSkill br_ai_skill_friendly;
 		[_x] call fn_objectInitEvents; 
 	} forEach (units _objectiveGroup);
 	[_transportVehicle, _spawnPad] call fn_setDirectionOfMarker;

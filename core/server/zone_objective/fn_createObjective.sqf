@@ -33,7 +33,7 @@ br_fnc_spawnGivenUnitsAt = {
 		{
 			// Create and return the AI(s) group
 			private _tempGroup = [_position, side _group, [_x],[],[],[],[],[],180] call BIS_fnc_spawnGroup;
-			{ _x setSkill br_ai_skill; } foreach (units _tempGroup);
+			{ _x setSkill br_ai_skill_enemy; } foreach (units _tempGroup);
 			// Place the AI(s) in that group into another group
 			units _tempGroup join _group;
 		} foreach _groupunits;
@@ -70,7 +70,7 @@ br_fnc_spawnGroups = {
 		else { [_group, _safeSpot, _zoneRadius] execVM "core\server\zone_objective\fn_groupRoam.sqf"; };
 		[_group] call br_set_states;
 		{ 
-			_x setSkill br_ai_skill;
+			_x setSkill br_ai_skill_enemy;
 			if (!isNull objectParent _x) then { 
 				_objects pushBack vehicle _x;
 				[vehicle _x] call fn_objectInitEvents; 

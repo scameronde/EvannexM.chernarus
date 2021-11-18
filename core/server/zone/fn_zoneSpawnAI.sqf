@@ -20,7 +20,7 @@ br_fnc_spawnGivenUnitsAt = {
 		{
 			// Create and return the AI(s) group
 			_tempGroup = [_position, side _group, [_x],[],[],[],[],[],180] call BIS_fnc_spawnGroup;
-			{ _x setSkill br_ai_skill; } foreach (units _tempGroup);
+			{ _x setSkill br_ai_skill_enemy; } foreach (units _tempGroup);
 			// Place the AI(s) in that group into another group
 			units _tempGroup join _group;
 			//_position = _position vectorAdd _vectorAdd;
@@ -55,7 +55,7 @@ br_fnc_spawnAI = {
 			if (((count _unitChance) != 0) && (_rNumber <= (count _unitChance))) then {
 				_group = [EAST, br_unit_type_compositions_enemy select 0, br_unit_type_compositions_enemy select 2, br_unit_type_compositions_enemy select 1, _unitChance, _newPos, br_ai_groups] call fn_selectRandomGroupToSpawn;
 			} else {
-				_group = [_newPos, EAST, selectrandom br_custom_unit_compositions_enemy] call BIS_fnc_spawnGroup;
+				_group = [_newPos, EAST, selectRandom br_custom_unit_compositions_enemy] call BIS_fnc_spawnGroup;
 				br_ai_groups pushBack _group;
 			};
 			[_group] call fn_setRandomDirection;
@@ -66,7 +66,7 @@ br_fnc_spawnAI = {
 				if (_completed) then {  
 					{ 
 						_x disableAI "PATH"; 
-						_x setSkill br_ai_skill;
+						_x setSkill br_ai_skill_enemy;
 						[_x] joinSilent _tempGroup;
 						br_groups_in_buildings append [_tempGroup];
 					} forEach (units _group);
@@ -81,7 +81,7 @@ br_fnc_spawnAI = {
 			_group = [createGroup EAST, 1, _newPos, [selectRandom _specialChance], 1] call br_fnc_spawnGivenUnitsAt;
 			[_group] call fn_setRandomDirection;
 			{ 
-				_x setSkill br_ai_skill; 
+				_x setSkill br_ai_skill_enemy; 
 				[_x] call fn_setRandomDirection;
 			} forEach (units _group);
 			br_special_ai_groups pushBack _group;
