@@ -1,0 +1,4 @@
+class CfgFunctions
+{
+	#include "SCAMERONDE\cfgfunctions.hpp"
+};

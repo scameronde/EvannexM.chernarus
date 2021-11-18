@@ -1,6 +1,6 @@
-title = "Evannex";
-author = "Bradenm1";
-onLoadName = "Evannex";
+title = "Evannex Redone";
+author = "scameronde";
+onLoadName = "EvannexR";
 onLoadMission = "An AI vs AI gamemode";
 loadScreen = "textures\mission_thumbnail.paa";
 
@@ -235,14 +235,7 @@ class Params {
 
 class CfgFunctions 
 { 
-    class SCAMERONDE
-    {
-        class Debug
-        {
-            class showNumUnits {};
-            class toggleShowNumUnits {};
-        }
-    }
-
+    #include "SCAMERONDE\cfgfunctions.hpp"
+    #include "QS\cfgfunctions.hpp"
     #include "SBGF\cfgfunctions.hpp"
 };

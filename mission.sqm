@@ -20,7 +20,7 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=68;
+		nextID=72;
 	};
 	class Camera
 	{
@@ -30,7 +30,7 @@ class EditorData
 	};
 };
 binarizationWanted=0;
-sourceName="EvannexM";
+sourceName="EvannexR";
 addons[]=
 {
 	"A3_Modules_F_Curator_Curator",
