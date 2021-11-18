@@ -18,9 +18,9 @@ br_randomly_find_zone = if ("PlaceZoneRandomly" call BIS_fnc_getParamValue == 1)
 br_zone_side_enabled = if ("ZoneSideEnabled" call BIS_fnc_getParamValue == 1) then { TRUE } else { FALSE };
 br_max_current_sides = "NSides" call BIS_fnc_getParamValue;
 br_max_garrisons = "NGarrisons" call BIS_fnc_getParamValue;
-br_friendlies_use_transport = if ("FriendliesUseTransport" call BIS_fnc_getParamValue == 1) then { TRUE } else { FALSE };
-br_objectives_require_cleared_space = if ("ObjectivesRequireClearedSpace" call BIS_fnc_getParamValue == 1) then { TRUE } else { FALSE };
-br_ai_skill = [0.1, 0.5, 1] select (parseNumber "AISkill" call BIS_fnc_getParamValue);
+br_friendlies_use_transport = if (("FriendliesUseTransport" call BIS_fnc_getParamValue) == 1) then { TRUE } else { FALSE };
+br_objectives_require_cleared_space = if (("ObjectivesRequireClearedSpace" call BIS_fnc_getParamValue) == 1) then { TRUE } else { FALSE };
+br_ai_skill = [0.1, 0.5, 0.7, 1] select ("AISkill" call BIS_fnc_getParamValue);
 br_empty_vehicles_in_garbage_collection = [];
 br_unit_type_compositions_friendly = [];
 br_unit_type_compositions_enemy = [];
