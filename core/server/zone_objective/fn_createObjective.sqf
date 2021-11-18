@@ -33,6 +33,7 @@ br_fnc_spawnGivenUnitsAt = {
 		{
 			// Create and return the AI(s) group
 			private _tempGroup = [_position, side _group, [_x],[],[],[],[],[],180] call BIS_fnc_spawnGroup;
+			{ _x setSkill br_ai_skill; } foreach (units _tempGroup);
 			// Place the AI(s) in that group into another group
 			units _tempGroup join _group;
 		} foreach _groupunits;
@@ -63,19 +64,19 @@ br_fnc_spawnGroups = {
 	{
 		private  _safeSpot = [_objectiveOrigin, 0, _zoneRadius * sqrt random 360, 20, 0, 20, 0] call BIS_fnc_findSafePos;
 		_group = [createGroup EAST, 1, _safeSpot, [_x]] call br_fnc_spawnGivenUnitsAt;
-		//{ _x setSkill br_ai_skill } forEach units _group;
 		[_group] call fn_setRandomDirection;
 		_groupsToKill pushBack _group;
 		if (_garrison) then { _garrison = [leader _group, _objectiveLocation, 100] call SBGF_fnc_groupGarrison; }
 		else { [_group, _safeSpot, _zoneRadius] execVM "core\server\zone_objective\fn_groupRoam.sqf"; };
 		[_group] call br_set_states;
 		{ 
+			_x setSkill br_ai_skill;
 			if (!isNull objectParent _x) then { 
 				_objects pushBack vehicle _x;
 				[vehicle _x] call fn_objectInitEvents; 
 			}; 
 			[_x] call fn_objectInitEvents; 
-		} forEach units _group;
+		} forEach (units _group);
 	} forEach _groupsIfKill;
 	// Delete group if too far away from objective
 	[_groupsToKill, _objectiveOrigin, _zoneRadius] execVM "core\server\zone_objective\fn_groupChecker.sqf"; 

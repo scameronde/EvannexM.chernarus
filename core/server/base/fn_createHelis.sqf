@@ -12,11 +12,12 @@ br_fnc_createChopperUnit = {
 	_helicopterVehicle = (selectrandom _unitChance) createVehicle getMarkerPos _heliPad;
 	[_helicopterVehicle] call fn_addToZeus;
 	_vehicleGroup = [_helicopterVehicle, WEST, _fmsDisable] call fn_createHelicopterCrew;
+	{ _x setSkill br_ai_skill; } forEach (units _vehicleGroup);
 	waitUntil { sleep 3; {_x in _helicopterVehicle} count (units _vehicleGroup) == {(alive _x)} count (units _vehicleGroup) };
 };
 
 // Go and land at zone
-br_fuc_landGroupAtZone = {
+br_fnc_landGroupAtZone = {
 	private _groups = _this select 0;
 	[_helicopterVehicle, "Waiting for all units to enter the helicopter..."] remoteExec ["vehicleChat"]; 
 	// Command groups into helicopter
@@ -79,7 +80,7 @@ br_fnc_createHelis = {
 				if (count _groups > 0) then { [_groups] call br_fnc_runEvacChopper; };
 			} else { 
 				private _groups = [_helicopterVehicle] call fn_getWaitingGroups;
-				if (count _groups > 0) then { [_groups] call br_fuc_landGroupAtZone; };
+				if (count _groups > 0) then { [_groups] call br_fnc_landGroupAtZone; };
 			};
 			_helicopterVehicle setFuel 1;
 			_helicopterVehicle setDamage 0;

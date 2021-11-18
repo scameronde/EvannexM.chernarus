@@ -1,21 +1,21 @@
 // Number of AI to spawn each side
-br_friendly_mark_enemy = if ("FriendlyMarkEnemy" call BIS_fnc_getParamValue == 1) then { TRUE } else { FALSE }; // If friendly units mark enemies on map
-br_enable_friendly_ai = if ("FriendlyAIEnabled" call BIS_fnc_getParamValue == 1) then { TRUE } else { FALSE }; // If friendly units are enabled
-br_hq_enabled = if ("HQEnabled" call BIS_fnc_getParamValue == 1) then { TRUE } else { FALSE };
+br_friendly_mark_enemy = if (("FriendlyMarkEnemy" call BIS_fnc_getParamValue) == 1) then { TRUE } else { FALSE }; // If friendly units mark enemies on map
+br_enable_friendly_ai = if (("FriendlyAIEnabled" call BIS_fnc_getParamValue) == 1) then { TRUE } else { FALSE }; // If friendly units are enabled
+br_hq_enabled = if (("HQEnabled" call BIS_fnc_getParamValue) == 1) then { TRUE } else { FALSE };
 br_max_ai_distance_before_delete = "MinAIDistanceForDeleteion" call BIS_fnc_getParamValue;
 br_min_enemy_groups_for_capture = "MinEnemyGroupsForCapture" call BIS_fnc_getParamValue; // Groups left for zone capture
 br_max_friendly_group_size = "MaxFriendlyGroupSize" call BIS_fnc_getParamValue; // Max group size
 br_min_special_groups = "NumberEnemySpecialGroups" call BIS_fnc_getParamValue;
 br_min_friendly_ai_groups = "NumberFriendlyGroups" call BIS_fnc_getParamValue;
 br_min_ai_groups = "NumberEnemyGroups" call BIS_fnc_getParamValue; // Number of groups
-br_random_side_locations = if ("RandomSideLocations" call BIS_fnc_getParamValue == 1) then { TRUE } else { FALSE }; // If side objectives use random locations
+br_random_side_locations = if (("RandomSideLocations" call BIS_fnc_getParamValue) == 1) then { TRUE } else { FALSE }; // If side objectives use random locations
 br_enabled_side_objectives = "SideObjectives" call BIS_fnc_getParamValue;
 br_max_user_vehicles = "MaxUserVehicles" call BIS_fnc_getParamValue;
 br_max_checks = 500; //"Checks" call BIS_fnc_getParamValue; // Max checks on finding markers for the gamemode
 br_zone_radius = "ZoneRadius" call BIS_fnc_getParamValue;
-br_mines_enabled = if ("RandomMines" call BIS_fnc_getParamValue == 1) then { TRUE } else { FALSE };
-br_randomly_find_zone = if ("PlaceZoneRandomly" call BIS_fnc_getParamValue == 1) then { TRUE } else { FALSE }; // Finds a random position on the map intead of using markers
-br_zone_side_enabled = if ("ZoneSideEnabled" call BIS_fnc_getParamValue == 1) then { TRUE } else { FALSE };
+br_mines_enabled = if (("RandomMines" call BIS_fnc_getParamValue) == 1) then { TRUE } else { FALSE };
+br_randomly_find_zone = if (("PlaceZoneRandomly" call BIS_fnc_getParamValue) == 1) then { TRUE } else { FALSE }; // Finds a random position on the map intead of using markers
+br_zone_side_enabled = if (("ZoneSideEnabled" call BIS_fnc_getParamValue) == 1) then { TRUE } else { FALSE };
 br_max_current_sides = "NSides" call BIS_fnc_getParamValue;
 br_max_garrisons = "NGarrisons" call BIS_fnc_getParamValue;
 br_friendlies_use_transport = if (("FriendliesUseTransport" call BIS_fnc_getParamValue) == 1) then { TRUE } else { FALSE };
@@ -122,28 +122,40 @@ br_fnc_doChecks = {
 		// Check if markers exist
 		if (getMarkerColor _endString != "") 
 		then { br_zones pushBack getMarkerPos _endString; };
+
 		if (getMarkerColor _endStringSides != "") 
 		then { br_sides pushBack getMarkerPos _endStringSides; };
+		
 		if ((getMarkerColor _endStringVeh != "") && {(br_enable_friendly_ai)}) 
 		then { [_endStringVeh, (call compileFinal preprocessFileLineNumbers (format ["core\spawnlists\%1\friendly_vehicles.sqf", br_friendly_faction]))] execVM "core\server\base\fn_createVehicle.sqf"; };
+		
 		if ((getMarkerColor _endStringJetSpawn != "") && {(br_enable_friendly_ai)}) 
 		then { [_endStringJetSpawn, (call compileFinal preprocessFileLineNumbers (format ["core\spawnlists\%1\friendly_jets.sqf", br_friendly_faction]))] execVM "core\server\base\fn_createVehicle.sqf"; };
+		
 		if ((getMarkerColor _endStringHeli != "") && {(br_enable_friendly_ai)})
 		then { _friendliesHasTransport = TRUE; [_endStringHeli, _i, FALSE, (call compileFinal preprocessFileLineNumbers (format ["core\spawnlists\%1\friendly_transport.sqf", br_friendly_faction]))] execVM "core\server\base\fn_createHelis.sqf"; };
+		
 		if ((getMarkerColor _endStringHeliEvac != "") && {(br_enable_friendly_ai)})
 		then { [_endStringHeliEvac, _i, TRUE, (call compileFinal preprocessFileLineNumbers (format ["core\spawnlists\%1\friendly_transport.sqf", br_friendly_faction]))] execVM "core\server\base\fn_createHelis.sqf"; };
+		
 		if ((getMarkerColor _endStringBombSquad != "") && {(br_enable_friendly_ai)})
 		then { [_endStringBombSquad, _i, (call compileFinal preprocessFileLineNumbers (format ["core\spawnlists\%1\friendly_objective_squad_vehicles.sqf", br_friendly_faction])), (call compileFinal preprocessFileLineNumbers (format ["core\spawnlists\%1\unit_compositions.sqf", br_friendly_faction]))] execVM "core\server\base\fn_createObjectiveUnits.sqf"; };
+		
 		if ((getMarkerColor _endStringRecruit != "") && {(br_enable_friendly_ai)})
 		then { [_endStringRecruit, _i, (call compileFinal preprocessFileLineNumbers (format ["core\spawnlists\%1\friendly_recruit.sqf", br_friendly_faction]))] execVM "core\server\recruit\fn_createRecruitAI.sqf"; };
+		
 		if ((getMarkerColor _endStringVehicleTransport != "") && {(br_enable_friendly_ai)})
 		then { _friendliesHasTransport = TRUE; [_endStringVehicleTransport, _i, (call compileFinal preprocessFileLineNumbers (format ["core\spawnlists\%1\friendly_vehicle_transport.sqf", br_friendly_faction])), FALSE] execVM "core\server\base\fn_createTransportVehicle.sqf"; };
+		
 		if ((getMarkerColor _endStringVehicleEvac != "") && {(br_enable_friendly_ai)})
 		then { [_endStringVehicleEvac, _i, (call compileFinal preprocessFileLineNumbers (format ["core\spawnlists\%1\friendly_vehicle_transport.sqf", br_friendly_faction])), TRUE] execVM "core\server\base\fn_createTransportVehicle.sqf"; };
+		
 		if ((getMarkerColor _endStringBaseDefence != "") && {(br_enable_friendly_ai)})
 		then { [_endStringBaseDefence, (call compileFinal preprocessFileLineNumbers (format ["core\spawnlists\%1\friendly_base_defence.sqf", br_friendly_faction]))] execVM "core\server\base\fn_createBaseDefence.sqf"; };
+		
 		if (getMarkerColor _endStringCustomTransport != "") 
 		then { [getMarkerPos _endStringCustomTransport] execVM "core\server\base\fn_customTransport.sqf"; };
+		
 		[_i] call br_fnc_doChecksDebug;
 	};
 
@@ -344,7 +356,7 @@ br_fnc_main = {
 		if (br_first_Zone) then { call br_fnc_onFirstZoneCreation } else { [] call br_fnc_onNewZoneCreation; };
 		// Set taken as false
 		br_zone_taken = FALSE;
-		["ZONE_Radio_Tower_RADIUS", (call compileFinal preprocessFileLineNumbers (format ["core\spawnlists\%1\enemy_speicals.sqf", br_enemy_faction])), (call compileFinal preprocessFileLineNumbers (format ["core\spawnlists\%1\unit_compositions.sqf", br_enemy_faction]))] execVM "core\server\zone\fn_zoneSpawnAI.sqf";
+		["ZONE_Radio_Tower_RADIUS", (call compileFinal preprocessFileLineNumbers (format ["core\spawnlists\%1\enemy_specials.sqf", br_enemy_faction])), (call compileFinal preprocessFileLineNumbers (format ["core\spawnlists\%1\unit_compositions.sqf", br_enemy_faction]))] execVM "core\server\zone\fn_zoneSpawnAI.sqf";
 		if (br_mines_enabled) then { execVM "core\server\zone\fn_placeMines.sqf"; };
 		// Wait for a time for the zone to populate
 		sleep 60;

@@ -25,7 +25,7 @@ br_fnc_createVehicleUnit = {
 };
 
 // Go and land at zone
-br_fuc_MoveGroupTotZone = {
+br_fnc_MoveGroupTotZone = {
 	private _groups = _this select 0;
 	[_vehicle, "Waiting for all units to enter the vehicle..."] remoteExec ["vehicleChat"];
 	// Command groups into helicopter
@@ -86,7 +86,7 @@ br_fnc_runVehicleUnit = {
 				if (count _groups > 0) then { [_groups] call br_fnc_runEvacVehicle; };
 			} else { 
 				private _groups = [_vehicle] call fn_getWaitingGroups;
-				if (count _groups > 0) then { [_groups] call br_fuc_MoveGroupTotZone; };
+				if (count _groups > 0) then { [_groups] call br_fnc_MoveGroupTotZone; };
 			};
 			_vehicle setFuel 1;
 			_vehicle setDamage 0;

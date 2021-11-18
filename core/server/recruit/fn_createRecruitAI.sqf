@@ -10,6 +10,7 @@ fn_createRecruitAI = {
     _grp setFormDir (markerDir _spawnPad); 
     private _unit = (units (_grp)) select 0;
     [[[_unit],"core\client\fn_createAddRecurit.sqf"],"BIS_fnc_execVM",true,true] call BIS_fnc_MP;
+    _unit setSkill br_ai_skill;
     [_unit] call fn_objectInitEvents;
     // waits untill has recruited ai
     waitUntil { sleep 10; count units _grp == 0 }; 

@@ -1,5 +1,5 @@
 private _spawningMarker = _this select 0; // The marker which spawns the AI if active
-private _speicalChance = _this select 1; // The list of units that have a chance to spawn
+private _specialChance = _this select 1; // The list of units that have a chance to spawn
 private _unitChance = _this select 2;
 
 private _aiSpawnRate = 0; // Delay in seconds
@@ -20,6 +20,7 @@ br_fnc_spawnGivenUnitsAt = {
 		{
 			// Create and return the AI(s) group
 			_tempGroup = [_position, side _group, [_x],[],[],[],[],[],180] call BIS_fnc_spawnGroup;
+			{ _x setSkill br_ai_skill; } foreach (units _tempGroup);
 			// Place the AI(s) in that group into another group
 			units _tempGroup join _group;
 			//_position = _position vectorAdd _vectorAdd;
@@ -65,6 +66,7 @@ br_fnc_spawnAI = {
 				if (_completed) then {  
 					{ 
 						_x disableAI "PATH"; 
+						_x setSkill br_ai_skill;
 						[_x] joinSilent _tempGroup;
 						br_groups_in_buildings append [_tempGroup];
 					} forEach (units _group);
@@ -76,7 +78,7 @@ br_fnc_spawnAI = {
 		// Spawn spawn special units untill 
 		while {(count br_special_ai_groups <= br_min_special_groups) && (getMarkerColor _spawningMarker == "ColorRed" || !br_radio_tower_enabled)} do {
 			_newPos = [] call br_fnc_getPositionNearNoPlayersAtZone;
-			_group = [createGroup EAST, 1, _newPos, [selectRandom _speicalChance], 1] call br_fnc_spawnGivenUnitsAt;
+			_group = [createGroup EAST, 1, _newPos, [selectRandom _specialChance], 1] call br_fnc_spawnGivenUnitsAt;
 			[_group] call fn_setRandomDirection;
 			{ 
 				_x setSkill br_ai_skill; 

@@ -26,9 +26,13 @@ br_fnc_createBombUnits = {
 	{ if (_x != (leader _objectiveGroup)) then { if (!(_x moveInAny _transportVehicle)) then { deleteVehicle _x; }; }; } forEach (units _objectiveGroup);
 	// Give each unit a sactelCharge
 	{ 
-		_oldPack = unitBackpack _x; removeBackpack _x; deleteVehicle _oldPack;
-		_x addBackpack "B_Carryall_ocamo"; _x addMagazines ["SatchelCharge_Remote_Mag", 1];
+		_oldPack = unitBackpack _x; 
+		removeBackpack _x; 
+		deleteVehicle _oldPack;
+		_x addBackpack "B_Carryall_ocamo"; 
+		_x addMagazines ["SatchelCharge_Remote_Mag", 1];
 		_x setBehaviour "SAFE";
+		_x setSkill br_ai_skill;
 		[_x] call fn_objectInitEvents; 
 	} forEach (units _objectiveGroup);
 	[_transportVehicle, _spawnPad] call fn_setDirectionOfMarker;
