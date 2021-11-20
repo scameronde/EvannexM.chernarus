@@ -3,7 +3,7 @@ class SCAMERONDE
 	tag = "SCAMERONDE";
 	class Debug
 	{
-		file = "SCAMERONDE";
+		file = "SCAMERONDE\debug";
 		class showNumUnits {};
 		class toggleShowNumUnits {};
 	};

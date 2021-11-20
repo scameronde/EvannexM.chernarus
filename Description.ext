@@ -238,4 +238,5 @@ class CfgFunctions
     #include "SCAMERONDE\cfgfunctions.hpp"
     #include "QS\cfgfunctions.hpp"
     #include "SBGF\cfgfunctions.hpp"
+   	#include "EVANNEX\cfgfunctions.hpp"
 };
