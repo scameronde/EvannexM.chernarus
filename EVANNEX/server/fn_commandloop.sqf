@@ -13,6 +13,7 @@ COMMAND_SPAWN_GROUND_TRANSPORT = "spawn ground transport";
 COMMAND_DELETE_KILLED_BASE_DEFENCE = "delete killed base defence";
 
 private _command=COMMAND_EMPTY;
+private _commandParams=[];
 
 private _scanMapForBaseMarkers = {
 	private _pos=[];
@@ -46,9 +47,10 @@ private _findEmptyPosition = {
 	private _found=[];
 	
 	{
-      if (count (_x findEmptyPosition [0, 0, _unitType]) > 0) exitWith {
-		  _found = _x;
-	  };
+		_found = _x findEmptyPosition [0, 5, _unitType];
+		if (count _found > 0) exitWith {
+			_found;
+		};
 	} forEach _positionsToCheck;
 
 	_found;
@@ -68,7 +70,7 @@ private _commandSpawnBaseDefence = {
 			_x disableAI "PATH";
 			//_x addEventHandler ["killed", "br_dead_objects pushBack (_this select 0);"];
 		} forEach (crew _vehicle);
-		_vehicle addEventHandler ["killed", "[COMMAND_DELETE_KILLED_BASE_DEFENCE, COMMAND_SPAWN_BASE_DEFENCE] call EVANNEX_fnc_commandqueue_push;"];
+		_vehicle addEventHandler ["killed", "[[COMMAND_DELETE_KILLED_BASE_DEFENCE, [_this select 0, serverTime, 10]], COMMAND_SPAWN_BASE_DEFENCE] call EVANNEX_fnc_commandqueue_push;"];
 
 		{
 			_x addCuratorEditableObjects [[_vehicle], true];
@@ -99,9 +101,23 @@ private _commandResetGame = {
 	] call EVANNEX_fnc_commandqueue_push;
 };
 
+private _commandDeleteKilledBaseDefence = {
+	params ["_toDelete", "_killedWhen", "_waitFor"];
+	if (serverTime > _killedWhen + _waitFor) then {
+		deleteVehicle _toDelete;
+	}
+	else {
+		[[COMMAND_DELETE_KILLED_BASE_DEFENCE, _this]] call EVANNEX_fnc_commandqueue_push;
+	};
+};
+
 if (isServer) then {
 	while { true } do {
 		_command = (call EVANNEX_fnc_commandqueue_pop);
+		if (typeName _command == "ARRAY") then {
+			_commandParams = _command select 1;
+			_command = _command select 0;
+		};
 		switch (_command) do {
 			case COMMAND_EMPTY: { hint _command; };
 			case COMMAND_RESET_GAME: {
@@ -120,13 +136,14 @@ if (isServer) then {
 				call _commandSpawnBaseDefence;
 			};
 			case COMMAND_SPAWN_HELI_TRANSPORT: {
-				hint "Spawn Heli Transport";
+				hint "Command: spawn heli transport";
 			};
 			case COMMAND_SPAWN_GROUND_TRANSPORT: {
-				hint "Spawn Ground Transport";
+				hint "Command: spawn ground transport";
 			};
 			case COMMAND_DELETE_KILLED_BASE_DEFENCE: {
-				hint "delete killed base defence after some time";
+				hint "Command: delete killed base defence after some time";
+				_commandParams call _commandDeleteKilledBaseDefence;
 			};
 			default { hint _command; };
 		};
