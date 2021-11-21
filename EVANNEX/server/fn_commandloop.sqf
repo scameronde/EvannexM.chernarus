@@ -3,13 +3,14 @@ COMMANDQUEUE = [];
 
 // possible entry types
 COMMAND_EMPTY = "empty";
+COMMAND_RESET_GAME = "reset game";
 COMMAND_BUILD_BASE = "build base";
 COMMAND_BUILD_ZONE = "build zone";
 COMMAND_DELETE_ZONE = "delete zone";
 COMMAND_SPAWN_BASE_DEFENCE = "spawn base defence";
 COMMAND_SPAWN_HELI_TRANSPORT = "spawn heli transport";
 COMMAND_SPAWN_GROUND_TRANSPORT = "spawn ground transport";
-
+COMMAND_DELETE_KILLED_BASE_DEFENCE = "delete killed base defence";
 
 private _command=COMMAND_EMPTY;
 
@@ -53,7 +54,7 @@ private _findEmptyPosition = {
 	_found;
 };
 
-private _spawnBaseDefence = {
+private _commandSpawnBaseDefence = {
 	private _baseDefence = selectRandom (SPAWNLISTS_FRIENDLY get SPAWNLIST_FRIENDLY_BASE_DEFENCE);
 	private _pos = [BASE_POS_DEFENCE, _baseDefence] call _findEmptyPosition;
 	if (count _pos > 0) then {
@@ -65,8 +66,9 @@ private _spawnBaseDefence = {
 			_x setBehaviour "AWARE";
 			_x setSkill 0.7; // TODO: use config
 			_x disableAI "PATH";
-			// [_x] call fn_objectInitEvents;
+			//_x addEventHandler ["killed", "br_dead_objects pushBack (_this select 0);"];
 		} forEach (crew _vehicle);
+		_vehicle addEventHandler ["killed", "[COMMAND_DELETE_KILLED_BASE_DEFENCE, COMMAND_SPAWN_BASE_DEFENCE] call EVANNEX_fnc_commandqueue_push;"];
 
 		{
 			_x addCuratorEditableObjects [[_vehicle], true];
@@ -74,7 +76,27 @@ private _spawnBaseDefence = {
 	}
 	else {
 		hint "No empty position for Base Defence found";
+		// try again
+		[COMMAND_SPAWN_BASE_DEFENCE] call EVANNEX_fnc_commandqueue_push;
 	};
+};
+
+private _commandBuildBase = {
+	call _scanMapForBaseMarkers;
+	call _addCommandsForBaseMarkers;
+};
+
+private _commandResetGame = {
+	call EVANNEX_fnc_compositions_enemy;
+	call EVANNEX_fnc_spawnlists_enemy;
+	call EVANNEX_fnc_spawnlists_friendly;
+
+	call EVANNEX_fnc_base_init;
+
+	[
+		COMMAND_BUILD_BASE, 
+		COMMAND_BUILD_ZONE
+	] call EVANNEX_fnc_commandqueue_push;
 };
 
 if (isServer) then {
@@ -82,23 +104,29 @@ if (isServer) then {
 		_command = (call EVANNEX_fnc_commandqueue_pop);
 		switch (_command) do {
 			case COMMAND_EMPTY: { hint _command; };
+			case COMMAND_RESET_GAME: {
+				hint "Command: reset game";
+				call _commandResetGame;
+			};
 			case COMMAND_BUILD_BASE: {
-				hint "Processing Map";
-				call _scanMapForBaseMarkers;
-				call _addCommandsForBaseMarkers;
+				hint "Command: build base";
+				call _commandBuildBase;
 			};
 			case COMMAND_BUILD_ZONE: {
-				hint "Building Zone";
+				hint "Command: building zone";
 			};
 			case COMMAND_SPAWN_BASE_DEFENCE: {
-				hint "Spawn Base Defence";
-				call _spawnBaseDefence;
+				hint "Command: spawn base defence";
+				call _commandSpawnBaseDefence;
 			};
 			case COMMAND_SPAWN_HELI_TRANSPORT: {
 				hint "Spawn Heli Transport";
 			};
 			case COMMAND_SPAWN_GROUND_TRANSPORT: {
 				hint "Spawn Ground Transport";
+			};
+			case COMMAND_DELETE_KILLED_BASE_DEFENCE: {
+				hint "delete killed base defence after some time";
 			};
 			default { hint _command; };
 		};
