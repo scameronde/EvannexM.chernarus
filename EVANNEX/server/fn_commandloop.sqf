@@ -7,14 +7,23 @@ COMMAND_RESET_GAME = "reset game";
 COMMAND_BUILD_BASE = "build base";
 COMMAND_BUILD_ZONE = "build zone";
 COMMAND_DELETE_ZONE = "delete zone";
+
 COMMAND_SPAWN_BASE_DEFENCE = "spawn base defence";
-COMMAND_SPAWN_AIR_TRANSPORT = "spawn air transport";
-COMMAND_SPAWN_GROUND_TRANSPORT = "spawn ground transport";
+COMMAND_SPAWN_AIR_TRANSPORT_HELI = "spawn heli transport";
+COMMAND_SPAWN_AIR_COMBAT_HELI = "spawn heli combat";
+COMMAND_SPAWN_AIR_COMBAT_JET = "spawn jet combat";
+COMMAND_SPAWN_GROUND_TRANSPORT_VEHICLE = "spawn ground transport";
 COMMAND_SPAWN_GROUND_COMBAT_VEHICLE = "spawn ground combat vehicle";
+COMMAND_SPAWN_GROUND_COMBAT_INFANTRY = "spawn ground combat infantry";
+
 COMMAND_DELETE_KILLED_BASE_DEFENCE = "delete killed base defence";
-COMMAND_DELETE_KILLED_AIR_TRANSPORT = "delete killed air transport";
-COMMAND_DELETE_KILLED_GROUND_TRANSPORT = "delete killed ground transport";
+COMMAND_DELETE_KILLED_AIR_TRANSPORT_HELI = "delete killed heli transport";
+COMMAND_DELETE_KILLED_AIR_COMBAT_HELI = "delete killed heli combat";
+COMMAND_DELETE_KILLED_AIR_COMBAT_JET = "delete killed jet combat";
+COMMAND_DELETE_KILLED_GROUND_TRANSPORT_VEHICLE = "delete killed ground transport";
 COMMAND_DELETE_KILLED_GROUND_COMBAT_VEHICLE = "delete killed ground combat vehicle";
+COMMAND_DELETE_KILLED_GROUND_COMBAT_INFANTRY = "delete killed ground combat infantry";
+
 
 private _command=COMMAND_EMPTY;
 private _commandParams=[];
@@ -24,10 +33,13 @@ private _scanMapForBaseMarkers = {
 	{
 		_pos = markerPos _x;
 		switch true do {
-			case (_x regexMatch "defence_spawn_.*"): { BASE_POS_DEFENCE pushBack _pos; };
-			case (_x regexMatch "helicopter_transport_.*"): { BASE_POS_HELI_TRANSPORT pushBack _pos; };
-			case (_x regexMatch "vehicle_transport_spawn_.*"): { BASE_POS_GROUND_TRANSPORT pushBack _pos; };
-			case (_x regexMatch "vehicle_spawn_.*"): { BASE_POS_GROUND_COMBAT_VEHICLE pushBack _pos; };
+			case (_x regexMatch "spawn_base_defence_.*"): { BASE_POS_DEFENCE pushBack _pos; };
+			case (_x regexMatch "spawn_air_transport_heli_.*"): { BASE_POS_AIR_TRANSPORT_HELI pushBack _pos; };
+			case (_x regexMatch "spawn_air_combat_heli_.*"): { BASE_POS_AIR_TRANSPORT_HELI pushBack _pos; };
+			case (_x regexMatch "spawn_air_combat_jet_.*"): { BASE_POS_AIR_TRANSPORT_HELI pushBack _pos; };
+			case (_x regexMatch "spawn_ground_transport_vehicle_.*"): { BASE_POS_GROUND_TRANSPORT_VEHICLE pushBack _pos; };
+			case (_x regexMatch "spawn_ground_combat_vehicle_.*"): { BASE_POS_GROUND_COMBAT_VEHICLE pushBack _pos; };
+			case (_x regexMatch "spawn_ground_combat_infantry_.*"): { BASE_POS_GROUND_COMBAT_INFANTRY pushBack _pos; };		
 		};
 
 	} forEach allMapMarkers;
@@ -39,16 +51,28 @@ private _addCommandsForBaseMarkers = {
 	} forEach BASE_POS_DEFENCE;
 
 	{
-		[COMMAND_SPAWN_AIR_TRANSPORT] call EVANNEX_fnc_commandqueue_push;
-	} forEach BASE_POS_HELI_TRANSPORT;
+		[COMMAND_SPAWN_AIR_TRANSPORT_HELI] call EVANNEX_fnc_commandqueue_push;
+	} forEach BASE_POS_AIR_TRANSPORT_HELI;
 
 	{
-		[COMMAND_SPAWN_GROUND_TRANSPORT] call EVANNEX_fnc_commandqueue_push;
-	} forEach BASE_POS_GROUND_TRANSPORT;
+		[COMMAND_SPAWN_GROUND_TRANSPORT_VEHICLE] call EVANNEX_fnc_commandqueue_push;
+	} forEach BASE_POS_GROUND_TRANSPORT_VEHICLE;
 
 	{
 		[COMMAND_SPAWN_GROUND_COMBAT_VEHICLE] call EVANNEX_fnc_commandqueue_push;
 	} forEach BASE_POS_GROUND_COMBAT_VEHICLE;
+
+	{
+		[COMMAND_SPAWN_GROUND_COMBAT_INFANTRY] call EVANNEX_fnc_commandqueue_push;
+	} forEach BASE_POS_GROUND_COMBAT_INFANTRY;
+
+	{
+		[COMMAND_SPAWN_AIR_COMBAT_HELI] call EVANNEX_fnc_commandqueue_push;
+	} forEach BASE_POS_AIR_COMBAT_HELI;
+
+	{
+		[COMMAND_SPAWN_AIR_COMBAT_JET] call EVANNEX_fnc_commandqueue_push;
+	} forEach BASE_POS_AIR_COMBAT_JET;
 };
 
 private _findEmptyPosition = {
@@ -56,7 +80,7 @@ private _findEmptyPosition = {
 	private _found=[];
 	
 	{
-		_found = _x findEmptyPosition [0, 5, _unitType];
+		_found = _x findEmptyPosition [0, 1, _unitType];
 		if (count _found > 0) exitWith {
 			_found;
 		};
@@ -92,9 +116,9 @@ private _commandSpawnBaseDefence = {
 	};
 };
 
-private _commandSpawnAirTransport = {
+private _commandSpawnAirTransportHeli = {
 	private _heli = selectRandom (SPAWNLISTS_FRIENDLY get SPAWNLIST_FRIENDLY_AIR_TRANSPORT_VEHICLES);
-	private _pos = [BASE_POS_HELI_TRANSPORT, _heli] call _findEmptyPosition;
+	private _pos = [BASE_POS_AIR_TRANSPORT_HELI, _heli] call _findEmptyPosition;
 	if (count _pos > 0) then {
 		hint "Spawning air transport at position";
 
@@ -106,7 +130,7 @@ private _commandSpawnAirTransport = {
 			_x disableAI "PATH";
 			//_x addEventHandler ["killed", "br_dead_objects pushBack (_this select 0);"];
 		} forEach (crew _vehicle);
-		_vehicle addEventHandler ["killed", { [[COMMAND_DELETE_KILLED_AIR_TRANSPORT, [_this select 0, serverTime, 10]], COMMAND_SPAWN_AIR_TRANSPORT] call EVANNEX_fnc_commandqueue_push; }];
+		_vehicle addEventHandler ["killed", { [[COMMAND_DELETE_KILLED_AIR_TRANSPORT_HELI, [_this select 0, serverTime, 10]], COMMAND_SPAWN_AIR_TRANSPORT_HELI] call EVANNEX_fnc_commandqueue_push; }];
 
 		{
 			_x addCuratorEditableObjects [[_vehicle], true];
@@ -115,13 +139,19 @@ private _commandSpawnAirTransport = {
 	else {
 		hint "No empty position for air transport found";
 		// try again
-		[COMMAND_SPAWN_AIR_TRANSPORT] call EVANNEX_fnc_commandqueue_push;
+		[COMMAND_SPAWN_AIR_TRANSPORT_HELI] call EVANNEX_fnc_commandqueue_push;
 	};
 };
 
-private _commandSpawnGroundTransport = {
+private _commandSpawnAirCombatHeli = {
+};
+
+private _commandSpawnAirCombatJet = {	
+};
+
+private _commandSpawnGroundTransportVehicle = {
 	private _entity = selectRandom (SPAWNLISTS_FRIENDLY get SPAWNLIST_FRIENDLY_GROUND_TRANSPORT_VEHICLES);
-	private _pos = [BASE_POS_GROUND_TRANSPORT, _entity] call _findEmptyPosition;
+	private _pos = [BASE_POS_GROUND_TRANSPORT_VEHICLE, _entity] call _findEmptyPosition;
 	if (count _pos > 0) then {
 		hint "Spawning ground transport at position";
 
@@ -133,7 +163,7 @@ private _commandSpawnGroundTransport = {
 			_x disableAI "PATH";
 			//_x addEventHandler ["killed", "br_dead_objects pushBack (_this select 0);"];
 		} forEach (crew _vehicle);
-		_vehicle addEventHandler ["killed", { [[COMMAND_DELETE_KILLED_GROUND_TRANSPORT, [_this select 0, serverTime, 10]], COMMAND_SPAWN_GROUND_TRANSPORT] call EVANNEX_fnc_commandqueue_push; }];
+		_vehicle addEventHandler ["killed", { [[COMMAND_DELETE_KILLED_GROUND_TRANSPORT_VEHICLE, [_this select 0, serverTime, 10]], COMMAND_SPAWN_GROUND_TRANSPORT_VEHICLE] call EVANNEX_fnc_commandqueue_push; }];
 
 		{
 			_x addCuratorEditableObjects [[_vehicle], true];
@@ -142,7 +172,7 @@ private _commandSpawnGroundTransport = {
 	else {
 		hint "No empty position for ground transport found";
 		// try again
-		[COMMAND_SPAWN_GROUND_TRANSPORT] call EVANNEX_fnc_commandqueue_push;
+		[COMMAND_SPAWN_GROUND_TRANSPORT_VEHICLE] call EVANNEX_fnc_commandqueue_push;
 	};
 };
 
@@ -173,6 +203,9 @@ private _commandSpawnGroundCombatVehicle = {
 	};
 };
 
+private _commandSpawnGroundCombatInfantry = {
+};
+
 private _commandBuildBase = {
 	call _scanMapForBaseMarkers;
 	call _addCommandsForBaseMarkers;
@@ -201,23 +234,29 @@ private _commandDeleteKilledBaseDefence = {
 	};
 };
 
-private _commandDeleteKilledAirTransport = {
+private _commandDeleteKilledAirTransportHeli = {
 	params ["_toDelete", "_killedWhen", "_waitFor"];
 	if (serverTime > _killedWhen + _waitFor) then {
 		deleteVehicle _toDelete;
 	}
 	else {
-		[[COMMAND_DELETE_KILLED_AIR_TRANSPORT, _this]] call EVANNEX_fnc_commandqueue_push;
+		[[COMMAND_DELETE_KILLED_AIR_TRANSPORT_HELI, _this]] call EVANNEX_fnc_commandqueue_push;
 	};
 };
 
-private _commandDeleteKilledGroundTransport = {
+private _commandDeleteKilledAirCombatHeli = {
+};
+
+private _commandDeleteKilledAirCombatJet = {
+};
+
+private _commandDeleteKilledGroundTransportVehicle = {
 	params ["_toDelete", "_killedWhen", "_waitFor"];
 	if (serverTime > _killedWhen + _waitFor) then {
 		deleteVehicle _toDelete;
 	}
 	else {
-		[[COMMAND_DELETE_KILLED_GROUND_TRANSPORT, _this]] call EVANNEX_fnc_commandqueue_push;
+		[[COMMAND_DELETE_KILLED_GROUND_TRANSPORT_VEHICLE, _this]] call EVANNEX_fnc_commandqueue_push;
 	};
 };
 
@@ -230,6 +269,10 @@ private _commandDeleteKilledGroundCombatVehicle = {
 		[[COMMAND_DELETE_KILLED_GROUND_COMBAT_VEHICLE, _this]] call EVANNEX_fnc_commandqueue_push;
 	};
 };
+
+private _commandDeleteKilledGroundCombatInfantry = {
+};
+
 
 if (isServer) then {
 	while { true } do {
@@ -255,34 +298,58 @@ if (isServer) then {
 				hint "Command: spawn base defence";
 				call _commandSpawnBaseDefence;
 			};
-			case COMMAND_SPAWN_AIR_TRANSPORT: {
+			case COMMAND_SPAWN_AIR_TRANSPORT_HELI: {
 				hint "Command: spawn air transport";
-				call _commandSpawnAirTransport;
+				call _commandSpawnAirTransportHeli;
 			};
-			case COMMAND_SPAWN_GROUND_TRANSPORT: {
+			case COMMAND_SPAWN_AIR_COMBAT_HELI: {
+				hint "Command: spawn air combat heli";
+				call _commandSpawnAirCombatHeli;
+			};
+			case COMMAND_SPAWN_AIR_COMBAT_JET: {
+				hint "Command: spawn air combat jet";
+				call _commandSpawnAirCombatJet;
+			};
+			case COMMAND_SPAWN_GROUND_TRANSPORT_VEHICLE: {
 				hint "Command: spawn ground transport";
-				call _commandSpawnGroundTransport;
+				call _commandSpawnGroundTransportVehicle;
 			};
 			case COMMAND_SPAWN_GROUND_COMBAT_VEHICLE: {
 				hint "Command: spawn ground combat vehicle";
 				call _commandSpawnGroundCombatVehicle;
 			};
+			case COMMAND_SPAWN_GROUND_COMBAT_INFANTRY: {
+				hint "Command: spawn ground combat infantry";
+				call _commandSpawnGroundCombatInfantry;
+			};
 			case COMMAND_DELETE_KILLED_BASE_DEFENCE: {
 				hint "Command: delete killed base defence after some time";
 				_commandParams call _commandDeleteKilledBaseDefence;
 			};
-			case COMMAND_DELETE_KILLED_AIR_TRANSPORT: {
+			case COMMAND_DELETE_KILLED_AIR_TRANSPORT_HELI: {
 				hint "Command: delete killed air transport after some time";
-				_commandParams call _commandDeleteKilledAirTransport;
+				_commandParams call _commandDeleteKilledAirTransportHeli;
 			};
-			case COMMAND_DELETE_KILLED_GROUND_TRANSPORT: {
+			case COMMAND_DELETE_KILLED_AIR_COMBAT_HELI: {
+				hint "Command: delete killed air combat heli after some time";
+				_commandParams call _commandDeleteKilledAirCombatHeli;
+			};
+			case COMMAND_DELETE_KILLED_AIR_COMBAT_JET: {
+				hint "Command: delete killed air combat jet after some time";
+				_commandParams call _commandDeleteKilledAirCombatJet;
+			};
+			case COMMAND_DELETE_KILLED_GROUND_TRANSPORT_VEHICLE: {
 				hint "Command: delete killed ground transport after some time";
-				_commandParams call _commandDeleteKilledGroundTransport;
+				_commandParams call _commandDeleteKilledGroundTransportVehicle;
 
 			};
 			case COMMAND_DELETE_KILLED_GROUND_COMBAT_VEHICLE: {
 				hint "Command: delete killed ground combat vehicle after some time";
 				_commandParams call _commandDeleteKilledGroundCombatVehicle;
+			};
+			case COMMAND_DELETE_KILLED_GROUND_COMBAT_INFANTRY: {
+				hint "Command: delete killed ground combat infantry after some time";
+				_commandParams call _commandDeleteKilledGroundCombatInfantry;
 			};
 			default { hint _command; };
 		};

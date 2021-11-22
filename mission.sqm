@@ -12,7 +12,7 @@ class EditorData
 	};
 	class ItemIDProvider
 	{
-		nextID=1277;
+		nextID=1279;
 	};
 	class MarkerIDProvider
 	{
@@ -20,14 +20,13 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=168;
+		nextID=170;
 	};
 	class Camera
 	{
 		pos[]={4525.5356,360.88193,10566.792};
-		dir[]={-1.2363449e-007,-0.70710683,0.70710683};
-		up[]={-1.2363449e-007,0.70710671,0.70710683};
-		aside[]={1,0,1.7484557e-007};
+		dir[]={0,-0.70710683,0.70710683};
+		up[]={0,0.70710671,0.70710683};
 	};
 };
 binarizationWanted=0;
@@ -352,18 +351,18 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={4607.5068,339,10346.351};
-			name="helicopter_transport_1";
+			name="spawn_air_transport_heli_1";
 			type="Empty";
-			angle=241.2914;
+			angle=241.29099;
 			id=4;
 		};
 		class Item5
 		{
 			dataType="Marker";
 			position[]={4632.313,339,10359.939};
-			name="helicopter_transport_2";
+			name="spawn_air_transport_heli_2";
 			type="Empty";
-			angle=241.2914;
+			angle=241.29099;
 			id=5;
 		};
 		class Item6
@@ -404,9 +403,9 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={4645.9009,339,10335.132};
-			name="helicopter_transport_3";
+			name="spawn_air_transport_heli_3";
 			type="Empty";
-			angle=241.2914;
+			angle=241.29099;
 			id=7;
 		};
 		class Item8
@@ -447,7 +446,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={4569.3511,339,10351.255};
-			name="vehicle_spawn_1";
+			name="spawn_ground_combat_vehicle_1";
 			type="Empty";
 			angle=241.29099;
 			id=9;
@@ -490,7 +489,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={4559.1602,339.026,10369.858};
-			name="vehicle_spawn_2";
+			name="spawn_ground_combat_vehicle_2";
 			type="Empty";
 			angle=241.29099;
 			id=11;
@@ -500,9 +499,9 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={4555.7012,339,10411.499};
-			name="vehicle_spawn_3";
+			name="spawn_ground_combat_vehicle_3";
 			type="Empty";
-			angle=331.29086;
+			angle=331.29092;
 			id=12;
 		};
 		class Item13
@@ -577,10 +576,10 @@ class Mission
 		class Item15
 		{
 			dataType="Marker";
-			position[]={4621.0903,339,10321.546};
-			name="helicopter_transport_4";
+			position[]={4621.0898,339,10321.546};
+			name="spawn_air_transport_heli_4";
 			type="Empty";
-			angle=241.2914;
+			angle=241.29099;
 			id=15;
 		};
 		class Item16
@@ -620,10 +619,10 @@ class Mission
 		class Item17
 		{
 			dataType="Marker";
-			position[]={4590.0815,339,10372.284};
-			name="helicopter_evac_0";
+			position[]={4590.082,339,10372.284};
+			name="spawn_air_combat_heli_1";
 			type="Empty";
-			angle=61.292572;
+			angle=61.292995;
 			id=36;
 		};
 		class Item18
@@ -806,10 +805,10 @@ class Mission
 		class Item26
 		{
 			dataType="Marker";
-			position[]={4576.4956,339,10397.091};
-			name="helicopter_evac_2";
+			position[]={4576.4961,339,10397.091};
+			name="spawn_air_combat_heli_2";
 			type="Empty";
-			angle=61.292572;
+			angle=61.292995;
 			id=68;
 		};
 		class Item27
@@ -850,7 +849,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={4548.9702,339.14801,10388.468};
-			name="vehicle_spawn_6";
+			name="spawn_ground_combat_vehicle_5";
 			type="Empty";
 			angle=241.29099;
 			id=70;
@@ -938,18 +937,18 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={4931.8682,339,9989.8438};
-			name="jet_spawn_0";
+			name="spawn_air_combat_jet_1";
 			type="Empty";
-			angle=240.33591;
+			angle=240.33595;
 			id=80;
 		};
 		class Item33
 		{
 			dataType="Marker";
 			position[]={4882.2808,339,10076.147};
-			name="jet_spawn_1";
+			name="spawn_air_combat_jet_2";
 			type="Empty";
-			angle=242.31494;
+			angle=242.31496;
 			id=81;
 		};
 		class Item34
@@ -1004,28 +1003,28 @@ class Mission
 		class Item38
 		{
 			dataType="Marker";
-			position[]={4550.5684,339,10501.07};
-			name="vehicle_transport_spawn_1";
+			position[]={4550.5679,339,10501.07};
+			name="spawn_ground_transport_vehicle_1";
 			type="Empty";
-			angle=58.465782;
+			angle=58.465984;
 			id=87;
 		};
 		class Item39
 		{
 			dataType="Marker";
-			position[]={4278.5234,339,10821.998};
-			name="defence_spawn_1";
+			position[]={4278.5229,339,10821.998};
+			name="spawn_base_defence_1";
 			type="Empty";
-			angle=236.2914;
+			angle=236.29099;
 			id=88;
 		};
 		class Item40
 		{
 			dataType="Marker";
 			position[]={4904.7549,339,9750.1748};
-			name="defence_spawn_2";
+			name="spawn_base_defence_2";
 			type="Empty";
-			angle=241.2914;
+			angle=241.29099;
 			id=89;
 		};
 		class Item41
@@ -1047,10 +1046,10 @@ class Mission
 		class Item42
 		{
 			dataType="Marker";
-			position[]={4542.4165,339,10515.957};
-			name="vehicle_evac_spawn_1";
+			position[]={4542.417,339,10515.957};
+			name="spawn_ground_transport_vehicle_2";
 			type="Empty";
-			angle=60.786564;
+			angle=60.786995;
 			id=91;
 		};
 		class Item43
@@ -8816,12 +8815,12 @@ class Mission
 		class Item48
 		{
 			dataType="Marker";
-			position[]={4583.7676,339,10384.549};
+			position[]={4583.7681,339,10384.549};
 			name="marker_61";
-			text="Evac Helicopters";
+			text="Attack Helicopters";
 			type="respawn_air";
 			colorName="ColorWEST";
-			angle=106.29248;
+			angle=106.29198;
 			id=479;
 		};
 		class Item49
@@ -9554,7 +9553,7 @@ class Mission
 		{
 			dataType="Marker";
 			position[]={4578.8599,339,10333.89};
-			name="vehicle_spawn_4";
+			name="spawn_ground_combat_vehicle_4";
 			type="Empty";
 			angle=241.29099;
 			id=494;
