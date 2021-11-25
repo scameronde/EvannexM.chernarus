@@ -1,1 +1,2 @@
-call EVANNEX_fnc_commandloop;
+setTimeMultiplier 1;
+call NEW_fnc_commandloop;

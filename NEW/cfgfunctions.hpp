@@ -1,31 +1,32 @@
-class EVANNEX
+class NEW
 {
-	tag = "EVANNEX";
+	tag = "NEW";
 	class assets
 	{
-		file = "EVANNEX\assets";
+		file = "NEW\assets";
 		class compositions_enemy {};
 		class spawnlists_friendly {};
 		class spawnlists_enemy {};
 	};
 	class spawnlists
 	{
-		file = "EVANNEX\spawnlists";
+		file = "NEW\spawnlists";
 		// class showNumUnits {};
 	};
 	class client
 	{
-		file = "EVANNEX\client";
+		file = "NEW\client";
 		// class showNumUnits {};
 	};
 	class server
 	{
-		file = "EVANNEX\server";
+		file = "NEW\server";
 		class base_init {};
 		class commandloop {};
 		class commandqueue_cleanup {};
 		class commandqueue_clear {};
 		class commandqueue_pop {};
 		class commandqueue_push {};
+		class read_params {};
 	};
 };
