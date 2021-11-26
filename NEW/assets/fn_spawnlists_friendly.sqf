@@ -19,7 +19,9 @@ private _air_combat_jet = ["B_Plane_CAS_01_F", "B_UAV_02_F", "B_UAV_02_CAS_F", "
 private _air_combat_heli = ["B_Heli_Light_01_armed_F", "B_Heli_Attack_01_F"];
 private _ground_transport_vehicle = ["B_Truck_01_transport_F", "B_Truck_01_covered_F", "B_APC_Wheeled_01_cannon_F", "B_APC_Wheeled_03_cannon_F", "B_T_LSV_01_armed_F", "B_T_LSV_01_AT_F", "B_T_LSV_01_armed_CTRG_F", "B_T_LSV_01_unarmed_F"];
 private _ground_combat_vehicle = ["B_MRAP_01_gmg_F", "B_MRAP_01_hmg_F", "B_G_Offroad_01_armed_F", "B_MBT_01_cannon_F", "B_APC_Tracked_01_AA_F", "B_UGV_01_rcws_F", "B_APC_Tracked_01_CRV_F", "B_Truck_01_medical_F", "B_Truck_01_fuel_F", "B_Truck_01_ammo_F", "B_Truck_01_Repair_F", "B_APC_Wheeled_01_cannon_F", "B_MBT_01_TUSK_F", "B_APC_Wheeled_03_cannon_F", "B_T_LSV_01_armed_F", "B_T_LSV_01_armed_CTRG_F", "B_LSV_01_armed_F", "B_LSV_01_AT_F", "B_LSV_01_armed_black_F", "B_T_LSV_01_armed_black_F", "B_T_MRAP_01_gmg_F", "B_T_MRAP_01_hmg_F", "B_G_Quadbike_01_F", "B_AFV_Wheeled_01_cannon_F", "B_T_AFV_Wheeled_01_cannon_F", "B_AFV_Wheeled_01_up_cannon_F", "B_T_AFV_Wheeled_01_up_cannon_F", "B_APC_Tracked_01_AA_F", "B_APC_Tracked_01_rcws_F", "B_UGV_01_F"];
-private _ground_combat_infantry = ["BUS_InfSentry", "BUS_InfSquad", "BUS_InfAssault", "BUS_InfSquad_Weapons", "BUS_InfTeam", "BUS_InfTeam_AA", "BUS_InfTeam_AT", "BUS_ReconPatrol", "BUS_ReconSentry", "BUS_ReconTeam", "BUS_ReconSquad", "BUS_SniperTeam" ];
+private _ground_combat_infantry = ["BUS_InfSentry", "BUS_InfSquad", "BUS_InfAssault", "BUS_InfSquad_Weapons", "BUS_InfTeam", "BUS_InfTeam_AA", "BUS_InfTeam_AT", "BUS_ReconPatrol", "BUS_ReconSentry", "BUS_ReconTeam", "BUS_ReconSquad", "BUS_SniperTeam" ] apply {configfile >> "CfgGroups" >> "West" >> "BLU_F" >> "Infantry" >> _x};
+
+
 
 // build map
 _map set [SPAWNLIST_FRIENDLY_BASE_DEFENCE, _base_defence];

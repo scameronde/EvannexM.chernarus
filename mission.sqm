@@ -12,7 +12,7 @@ class EditorData
 	};
 	class ItemIDProvider
 	{
-		nextID=1279;
+		nextID=1282;
 	};
 	class MarkerIDProvider
 	{
@@ -20,14 +20,13 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=186;
+		nextID=190;
 	};
 	class Camera
 	{
 		pos[]={4525.5356,360.88193,10566.792};
-		dir[]={-1.2363449e-007,-0.70710683,0.70710683};
-		up[]={-1.2363449e-007,0.70710671,0.70710683};
-		aside[]={1,0,1.7484557e-007};
+		dir[]={0,-0.70710683,0.70710683};
+		up[]={0,0.70710671,0.70710683};
 	};
 };
 binarizationWanted=0;
@@ -229,7 +228,7 @@ class Mission
 	};
 	class Entities
 	{
-		items=137;
+		items=140;
 		class Item0
 		{
 			dataType="Logic";
@@ -300,7 +299,7 @@ class Mission
 		class Item1
 		{
 			dataType="Marker";
-			position[]={4495.3398,339,10479.682};
+			position[]={4496.75,339,10475.75};
 			name="spawn_ground_combat_infantry_1";
 			type="Empty";
 			angle=127.98599;
@@ -784,7 +783,7 @@ class Mission
 		class Item24
 		{
 			dataType="Marker";
-			position[]={4492.8521,339,10482.23};
+			position[]={4491.75,339,10484.5};
 			name="marker_99";
 			text="Ground Units Spawn";
 			type="respawn_unknown";
@@ -13002,6 +13001,33 @@ class Mission
 			type="Empty";
 			angle=239.35498;
 			id=1276;
+		};
+		class Item137
+		{
+			dataType="Marker";
+			position[]={4484.2666,339,10478.54};
+			name="spawn_ground_combat_infantry_2";
+			type="Empty";
+			angle=127.98599;
+			id=1279;
+		};
+		class Item138
+		{
+			dataType="Marker";
+			position[]={4485.25,339,10492.5};
+			name="spawn_ground_combat_infantry_3";
+			type="Empty";
+			angle=127.98599;
+			id=1280;
+		};
+		class Item139
+		{
+			dataType="Marker";
+			position[]={4498.5674,339,10490.311};
+			name="spawn_ground_combat_infantry_4";
+			type="Empty";
+			angle=127.98599;
+			id=1281;
 		};
 	};
 	class Connections
