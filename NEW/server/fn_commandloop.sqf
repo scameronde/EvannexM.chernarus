@@ -24,26 +24,12 @@ COMMAND_DELETE_KILLED_GROUND_TRANSPORT_VEHICLE = "delete killed ground transport
 COMMAND_DELETE_KILLED_GROUND_COMBAT_VEHICLE = "delete killed ground combat vehicle";
 COMMAND_DELETE_KILLED_GROUND_COMBAT_INFANTRY = "delete killed ground combat infantry";
 
+COMMAND_CHECK_FOR_DEAD_INFANTRY_GROUPS = "check for dead infantry groups";
 
 private _command=COMMAND_EMPTY;
 private _commandParams=[];
 
-private _scanMapForBaseMarkers = {
-	private _pos=[];
-	{
-		_pos = markerPos _x;
-		switch true do {
-			case (_x regexMatch "spawn_base_defence_.*"): { BASE_POS_DEFENCE pushBack _pos; };
-			case (_x regexMatch "spawn_air_transport_heli_.*"): { BASE_POS_AIR_TRANSPORT_HELI pushBack _pos; };
-			case (_x regexMatch "spawn_air_combat_heli_.*"): { BASE_POS_AIR_COMBAT_HELI pushBack _pos; };
-			case (_x regexMatch "spawn_air_combat_jet_.*"): { BASE_POS_AIR_COMBAT_JET pushBack _pos; };
-			case (_x regexMatch "spawn_ground_transport_vehicle_.*"): { BASE_POS_GROUND_TRANSPORT_VEHICLE pushBack _pos; };
-			case (_x regexMatch "spawn_ground_combat_vehicle_.*"): { BASE_POS_GROUND_COMBAT_VEHICLE pushBack _pos; };
-			case (_x regexMatch "spawn_ground_combat_infantry_.*"): { BASE_POS_GROUND_COMBAT_INFANTRY pushBack _pos; };		
-		};
-
-	} forEach allMapMarkers;
-};
+private _spawnedFriendlyInfantry=[];
 
 private _addCommandsForBaseMarkers = {
 	{
@@ -142,12 +128,11 @@ private _spawnGroup = {
 			_x setBehaviour "AWARE";
 			_x setSkill PARAMS_FRIENDLY_AI_SKILL;
 			_x disableAI "PATH";
-			_x enableSimulationGlobal false;
-			private _killHandler = format ['if (count ((units (group (_this select 0))) select { alive _x }) == 0) then {[["%1", _this select 0, 10], ["%2", [], 11]] call NEW_fnc_commandqueue_push;};', _killCommand, _spawnCommand];
-			_x addEventHandler ["killed", _killHandler];
+			//_x enableSimulationGlobal false;
 			//_x addEventHandler ["killed", "br_dead_objects pushBack (_this select 0);"];
 		} forEach (units _group);
 		_group setBehaviour "AWARE";
+		_spawnedFriendlyInfantry pushBack _group;
 
 		{
 			_x addCuratorEditableObjects [units _group, true];
@@ -158,6 +143,33 @@ private _spawnGroup = {
 		// try again
 		[_spawnCommand] call NEW_fnc_commandqueue_push;
 	};
+};
+
+private _checkForDeadInfantryGroups = {
+	private _units = [];
+	private _alive = false;
+	private _deadGroups = [];
+
+	{
+		_units = units _x;
+		_alive = false;
+		{
+			if (alive _x) exitWith { _alive = true };
+		} forEach _units;
+		if (_alive == false) then { _deadGroups pushBack _x };
+	} forEach _spawnedFriendlyInfantry;
+
+	_spawnedFriendlyInfantry = _spawnedFriendlyInfantry - _deadGroups;
+
+	{
+		private _group = _x;
+		{
+			_x removeCuratorEditableObjects [units _group, true];
+		} forEach allCurators;
+		[COMMAND_SPAWN_GROUND_COMBAT_INFANTRY] call NEW_fnc_commandqueue_push;
+	} forEach _deadGroups;
+
+	[[COMMAND_CHECK_FOR_DEAD_INFANTRY_GROUPS, [], 2]] call NEW_fnc_commandqueue_push;
 };
 
 private _commandSpawnBaseDefence = {
@@ -189,7 +201,6 @@ private _commandSpawnGroundCombatInfantry = {
 };
 
 private _commandBuildBase = {
-	call _scanMapForBaseMarkers;
 	call _addCommandsForBaseMarkers;
 };
 
@@ -198,11 +209,12 @@ private _commandResetGame = {
 	call NEW_fnc_compositions_enemy;
 	call NEW_fnc_spawnlists_enemy;
 	call NEW_fnc_spawnlists_friendly;
-	call NEW_fnc_base_init;
+	call NEW_fnc_base_friendly;
 
 	[
 		COMMAND_BUILD_BASE, 
-		COMMAND_BUILD_ZONE
+		COMMAND_BUILD_ZONE,
+		[COMMAND_CHECK_FOR_DEAD_INFANTRY_GROUPS, [], 2]
 	] call NEW_fnc_commandqueue_push;
 };
 
@@ -292,6 +304,9 @@ if (isServer) then {
 			case COMMAND_DELETE_KILLED_GROUND_COMBAT_INFANTRY: {
 				hint "Command: delete killed ground combat infantry after some time";
 				_params call _commandDeleteKilledGroundCombatInfantry;
+			};
+			case COMMAND_CHECK_FOR_DEAD_INFANTRY_GROUPS: {
+				_params call _checkForDeadInfantryGroups;
 			};
 			default { hint _command; };
 		};

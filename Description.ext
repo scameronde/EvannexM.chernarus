@@ -4,26 +4,6 @@ onLoadName = "new";
 onLoadMission = "Two parties in a neverending battle.";
 loadScreen = "textures\mission_thumbnail.paa";
 
-corpseManagerMode = 3;
-corpseLimit = 10;
-corpseRemovalMinTime = 10;
-corpseRemovalMaxTime = 20; 
-minPlayerDistance = 50;
-
-wreckManagerMode = 1;
-wreckLimit = 10;
-wreckRemovalMinTime = 15;
-briefing = -1;
-
-reviveMode = 1;
-aiKills = 1;
-enableItemsDropping = 0;
-
-disabledAI = 1;
-respawn = "base";
-respawnButton = 1;
-respawnDelay = 10;
-
 class Header {
 	gameType =  Coop;		    // Game type
 	minPlayers =  1;			// minimum number of players the mission supports

@@ -7,11 +7,7 @@ class NEW
 		class compositions_enemy {};
 		class spawnlists_friendly {};
 		class spawnlists_enemy {};
-	};
-	class spawnlists
-	{
-		file = "NEW\spawnlists";
-		// class showNumUnits {};
+		class base_friendly {};
 	};
 	class client
 	{
@@ -21,7 +17,6 @@ class NEW
 	class server
 	{
 		file = "NEW\server";
-		class base_init {};
 		class commandloop {};
 		class commandqueue_cleanup {};
 		class commandqueue_clear {};
