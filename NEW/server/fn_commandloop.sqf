@@ -22,7 +22,6 @@ COMMAND_DELETE_KILLED_AIR_COMBAT_HELI = "delete killed heli combat";
 COMMAND_DELETE_KILLED_AIR_COMBAT_JET = "delete killed jet combat";
 COMMAND_DELETE_KILLED_GROUND_TRANSPORT_VEHICLE = "delete killed ground transport";
 COMMAND_DELETE_KILLED_GROUND_COMBAT_VEHICLE = "delete killed ground combat vehicle";
-COMMAND_DELETE_KILLED_GROUND_COMBAT_INFANTRY = "delete killed ground combat infantry";
 
 COMMAND_CHECK_FOR_DEAD_INFANTRY_GROUPS = "check for dead infantry groups";
 
@@ -148,7 +147,6 @@ private _spawnVehiclesWithCrew = {
 			_x setSkill PARAM_FRIENDLY_AI_SKILL;
 			_x disableAI "PATH";
 			_x enableSimulationGlobal false;
-			//_x addEventHandler ["killed", "br_dead_objects pushBack (_this select 0);"];
 		} forEach (crew _vehicle);
 		_vehicle setBehaviour "AWARE";
 		_vehicle setSkill PARAM_FRIENDLY_AI_SKILL;
@@ -168,7 +166,7 @@ private _spawnVehiclesWithCrew = {
 };
 
 private _spawnGroup = {
-	params ["_spawnlistKey", "_positions", "_killCommand", "_spawnCommand"];
+	params ["_spawnlistKey", "_positions", "_spawnCommand"];
 	private _composition = selectRandom (SPAWNLISTS_FRIENDLY get _spawnlistKey);
 	private _pos = [_positions, _composition] call _findEmptyPositionForGroup;
 	if (count _pos > 0) then {
@@ -178,7 +176,6 @@ private _spawnGroup = {
 			_x setSkill PARAM_FRIENDLY_AI_SKILL;
 			_x disableAI "PATH";
 			_x enableSimulationGlobal false;
-			//_x addEventHandler ["killed", "br_dead_objects pushBack (_this select 0);"];
 		} forEach (units _group);
 		_group setBehaviour "AWARE";
 		_spawnedFriendlyInfantry pushBack _group;
@@ -188,7 +185,6 @@ private _spawnGroup = {
 		} forEach allCurators;
 	}
 	else {
-		hint "No empty position for ground combat infantry found";
 		// try again
 		[[_spawnCommand, [], 1]] call NEW_fnc_commandqueue_push;
 	};
@@ -246,7 +242,7 @@ private _commandSpawnGroundCombatVehicle = {
 };
 
 private _commandSpawnGroundCombatInfantry = {
-	[SPAWNLIST_FRIENDLY_GROUND_COMBAT_INFANTRY, BASE_POS_GROUND_COMBAT_INFANTRY, COMMAND_DELETE_KILLED_GROUND_COMBAT_INFANTRY, COMMAND_SPAWN_GROUND_COMBAT_INFANTRY] call _spawnGroup;
+	[SPAWNLIST_FRIENDLY_GROUND_COMBAT_INFANTRY, BASE_POS_GROUND_COMBAT_INFANTRY, COMMAND_SPAWN_GROUND_COMBAT_INFANTRY] call _spawnGroup;
 };
 
 private _commandBuildBase = {
@@ -273,11 +269,6 @@ private _deleteKilledVehicle = {
 		_toDelete deleteVehicleCrew _x;
 	} forEach (crew _toDelete);
 	deleteVehicle _toDelete;
-};
-
-private _commandDeleteKilledGroundCombatInfantry = {
-	params ["_toDelete"];
-	(units (group _toDelete)) apply { deleteVehicle _x };
 };
 
 
@@ -349,10 +340,6 @@ if (isServer) then {
 			case COMMAND_DELETE_KILLED_GROUND_COMBAT_VEHICLE: {
 				hint "Command: delete killed ground combat vehicle after some time";
 				_params call _deleteKilledVehicle;
-			};
-			case COMMAND_DELETE_KILLED_GROUND_COMBAT_INFANTRY: {
-				hint "Command: delete killed ground combat infantry after some time";
-				_params call _commandDeleteKilledGroundCombatInfantry;
 			};
 			case COMMAND_CHECK_FOR_DEAD_INFANTRY_GROUPS: {
 				_params call _checkForDeadInfantryGroups;
