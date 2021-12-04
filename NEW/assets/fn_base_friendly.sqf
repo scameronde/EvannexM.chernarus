@@ -16,7 +16,8 @@ private _pos=[];
 		case (_x regexMatch "spawn_air_combat_jet_.*"): { BASE_POS_AIR_COMBAT_JET pushBack _pos; };
 		case (_x regexMatch "spawn_ground_transport_vehicle_.*"): { BASE_POS_GROUND_TRANSPORT_VEHICLE pushBack _pos; };
 		case (_x regexMatch "spawn_ground_combat_vehicle_.*"): { BASE_POS_GROUND_COMBAT_VEHICLE pushBack _pos; };
-		case (_x regexMatch "spawn_ground_combat_infantry_.*"): { BASE_POS_GROUND_COMBAT_INFANTRY pushBack _pos; };		
+		case (_x regexMatch "spawn_ground_combat_infantry_.*"): { BASE_POS_GROUND_COMBAT_INFANTRY pushBack _pos; };
+		case (_x regexMatch "friendly_base"): { BASE = _x; _x setMarkerAlpha 0; };
 	};
 
 } forEach allMapMarkers;

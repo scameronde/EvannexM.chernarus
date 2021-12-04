@@ -36,41 +36,43 @@ private _addCommandsForBaseMarkers = {
 		[COMMAND_SPAWN_BASE_DEFENCE] call NEW_fnc_commandqueue_push;
 	} forEach BASE_POS_DEFENCE;
 
-	{
+	for "_i" from 1 to PARAM_FRIENDLY_NR_AIR_TRANSPORT_HELI do {
 		[COMMAND_SPAWN_AIR_TRANSPORT_HELI] call NEW_fnc_commandqueue_push;
-	} forEach BASE_POS_AIR_TRANSPORT_HELI;
-
-	{
-		[COMMAND_SPAWN_GROUND_TRANSPORT_VEHICLE] call NEW_fnc_commandqueue_push;
-	} forEach BASE_POS_GROUND_TRANSPORT_VEHICLE;
-
-	{
-		[COMMAND_SPAWN_GROUND_COMBAT_VEHICLE] call NEW_fnc_commandqueue_push;
-	} forEach BASE_POS_GROUND_COMBAT_VEHICLE;
-
-	if (count BASE_POS_GROUND_COMBAT_INFANTRY > 0) then {
-		for "_i" from 1 to PARAM_FRIENDLY_NR_GROUND_COMBAT_INFANTRY do {
-			[COMMAND_SPAWN_GROUND_COMBAT_INFANTRY] call NEW_fnc_commandqueue_push;
-		};
 	};
 
-	{
+	for "_i" from 1 to PARAM_FRIENDLY_NR_AIR_COMBAT_HELI do {
 		[COMMAND_SPAWN_AIR_COMBAT_HELI] call NEW_fnc_commandqueue_push;
-	} forEach BASE_POS_AIR_COMBAT_HELI;
+	};
 
-	{
+	for "_i" from 1 to PARAM_FRIENDLY_NR_AIR_COMBAT_JET do {
 		[COMMAND_SPAWN_AIR_COMBAT_JET] call NEW_fnc_commandqueue_push;
-	} forEach BASE_POS_AIR_COMBAT_JET;
+	};
+
+	for "_i" from 1 to PARAM_FRIENDLY_NR_GROUND_TRANSPORT_VEHICLE do {
+		[COMMAND_SPAWN_GROUND_TRANSPORT_VEHICLE] call NEW_fnc_commandqueue_push;
+	};
+
+	for "_i" from 1 to PARAM_FRIENDLY_NR_GROUND_COMBAT_VEHICLE do {
+		[COMMAND_SPAWN_GROUND_COMBAT_VEHICLE] call NEW_fnc_commandqueue_push;
+	};
+
+	for "_i" from 1 to PARAM_FRIENDLY_NR_GROUND_COMBAT_INFANTRY do {
+		[COMMAND_SPAWN_GROUND_COMBAT_INFANTRY] call NEW_fnc_commandqueue_push;
+	};
 };
 
 private _findEmptyPosition = {
 	params ["_positionsToCheck", "_unitType"];
 	private _found=[];
 
-	{
-		_found = _x findEmptyPosition [0, 5, _unitType];
-		if (count _found > 0) exitWith { _found };
-	} forEach _positionsToCheck;
+	if (count _positionsToCheck == 0) then {
+		_found = ([BASE] call CBA_fnc_randPosArea) findEmptyPosition [0, 5, _unitType];
+	} else {
+		{
+			_found = _x findEmptyPosition [0, 5, _unitType];
+			if (count _found > 0) exitWith { _found };
+		} forEach _positionsToCheck;
+	};
 
 	_found;
 };
@@ -79,10 +81,14 @@ private _findEmptyPositionForGroup = {
 	params ["_positionsToCheck"];
 	private _found=[];
 
-	{
-		_found = _x findEmptyPosition [0, 5];
-		if (count _found > 0) exitWith { _found };
-	} forEach _positionsToCheck;
+	if (count _positionsToCheck == 0) then {
+		_found = ([BASE] call CBA_fnc_randPosArea) findEmptyPosition [0, 5];
+	} else {
+		{
+			_found = _x findEmptyPosition [0, 5];
+			if (count _found > 0) exitWith { _found };
+		} forEach _positionsToCheck;
+	};
 
 	_found;
 };
@@ -96,13 +102,13 @@ private _spawnVehiclesWithCrew = {
 		private _group = createVehicleCrew _vehicle;
 		{
 			_x setBehaviour "AWARE";
-			_x setSkill PARAMS_FRIENDLY_AI_SKILL;
+			_x setSkill PARAM_FRIENDLY_AI_SKILL;
 			_x disableAI "PATH";
 			_x enableSimulationGlobal false;
 			//_x addEventHandler ["killed", "br_dead_objects pushBack (_this select 0);"];
 		} forEach (crew _vehicle);
 		_vehicle setBehaviour "AWARE";
-		_vehicle setSkill PARAMS_FRIENDLY_AI_SKILL;
+		_vehicle setSkill PARAM_FRIENDLY_AI_SKILL;
 		_vehicle disableAI "PATH";
 		_vehicle enableSimulationGlobal false;
 		private _killHandler = format ['[["%1", _this select 0, 10], ["%2", [], 11]] call NEW_fnc_commandqueue_push;', _killCommand, _spawnCommand];
@@ -114,7 +120,7 @@ private _spawnVehiclesWithCrew = {
 	}
 	else {
 		// try again
-		[_spawnCommand] call NEW_fnc_commandqueue_push;
+		[[_spawnCommand, [], 1]] call NEW_fnc_commandqueue_push;
 	};
 };
 
@@ -126,9 +132,9 @@ private _spawnGroup = {
 		private _group = [_pos, WEST, _composition] call BIS_fnc_spawnGroup;
 		{
 			_x setBehaviour "AWARE";
-			_x setSkill PARAMS_FRIENDLY_AI_SKILL;
+			_x setSkill PARAM_FRIENDLY_AI_SKILL;
 			_x disableAI "PATH";
-			//_x enableSimulationGlobal false;
+			_x enableSimulationGlobal false;
 			//_x addEventHandler ["killed", "br_dead_objects pushBack (_this select 0);"];
 		} forEach (units _group);
 		_group setBehaviour "AWARE";
@@ -141,7 +147,7 @@ private _spawnGroup = {
 	else {
 		hint "No empty position for ground combat infantry found";
 		// try again
-		[_spawnCommand] call NEW_fnc_commandqueue_push;
+		[[_spawnCommand, [], 1]] call NEW_fnc_commandqueue_push;
 	};
 };
 
