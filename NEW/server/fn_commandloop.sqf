@@ -77,6 +77,22 @@ private _findEmptyPosition = {
 	_found;
 };
 
+private _findEmptyPositionForBaseDefense = {
+	params ["_positionsToCheck", "_unitType"];
+	private _found=[];
+
+	if (count _positionsToCheck == 0) then {
+		_found = ([BASE] call CBA_fnc_randPosArea) findEmptyPosition [0, 1, _unitType];
+	} else {
+		{
+			_found = _x findEmptyPosition [0, 1, _unitType];
+			if (count _found > 0) exitWith { _found };
+		} forEach _positionsToCheck;
+	};
+
+	_found;
+};
+
 private _findEmptyPositionForGroup = {
 	params ["_positionsToCheck"];
 	private _found=[];
@@ -91,6 +107,33 @@ private _findEmptyPositionForGroup = {
 	};
 
 	_found;
+};
+
+private _spawnBaseDefense = {
+	params ["_spawnlistKey", "_positions", "_killCommand", "_spawnCommand"];
+	private _vehicleClass = selectRandom (SPAWNLISTS_FRIENDLY get _spawnlistKey);
+	private _pos = [_positions, _vehicleClass] call _findEmptyPosition;
+	if (count _pos > 0) then {
+		private _vehicle = _vehicleClass createVehicle _pos;
+		private _group = createVehicleCrew _vehicle;
+		{
+			_x setBehaviour "AWARE";
+			_x setSkill PARAM_FRIENDLY_AI_SKILL;
+			_x disableAI "PATH";
+		} forEach (crew _vehicle);
+		_vehicle setBehaviour "AWARE";
+		_vehicle setSkill PARAM_FRIENDLY_AI_SKILL;
+		private _killHandler = format ['[["%1", _this select 0, 10], ["%2", [], 11]] call NEW_fnc_commandqueue_push;', _killCommand, _spawnCommand];
+		_vehicle addEventHandler ["killed", _killHandler];
+
+		{
+			_x addCuratorEditableObjects [[_vehicle], true];
+		} forEach allCurators;
+	}
+	else {
+		// try again
+		[[_spawnCommand, [], 1]] call NEW_fnc_commandqueue_push;
+	};
 };
 
 private _spawnVehiclesWithCrew = {
@@ -179,7 +222,7 @@ private _checkForDeadInfantryGroups = {
 };
 
 private _commandSpawnBaseDefence = {
-	[SPAWNLIST_FRIENDLY_BASE_DEFENCE, BASE_POS_DEFENCE, COMMAND_DELETE_KILLED_BASE_DEFENCE, COMMAND_SPAWN_BASE_DEFENCE] call _spawnVehiclesWithCrew;
+	[SPAWNLIST_FRIENDLY_BASE_DEFENCE, BASE_POS_DEFENCE, COMMAND_DELETE_KILLED_BASE_DEFENCE, COMMAND_SPAWN_BASE_DEFENCE] call _spawnBaseDefense;
 };
 
 private _commandSpawnAirTransportHeli = {
